@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Producción - TV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+        
+        .header .hora-actual {
+            font-size: 2rem;
+            color: #4dffea;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header .ultima-actualizacion {
+            font-size: 1.2rem;
+            color: #ffcc00;
+            margin-top: 10px;
+        }
+        
+        .cuadrantes-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .cuadrante {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cuadrante:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .cuadrante-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cuadrante-numero {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #4dffea;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        
+        .cuadrante-estado {
+            font-size: 1.3rem;
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .estado-activo {
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+            color: white;
+        }
+        
+        .estado-inactivo {
+            background: linear-gradient(135deg, #8e9eab 0%, #eef2f3 100%);
+            color: #333;
+        }
+        
+        .produccion-info {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .produccion-producto {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffcc00;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .produccion-ot {
+            font-size: 1.6rem;
+            color: #4dffea;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .sin-produccion {
+            font-size: 1.8rem;
+            color: #ff6b6b;
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .talles-container {
+            flex-grow: 1;
+            margin-bottom: 25px;
+            overflow-y: auto;
+            max-height: 250px;
+        }
+        
+        .talle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            border-left: 4px solid #4dffea;
+            transition: all 0.3s ease;
+        }
+        
+        .talle-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+        
+        .talle-nombre {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .talle-cantidad {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffcc00;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .total-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .total-label {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .total-valor {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .resumen-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        
+        .resumen-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .resumen-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+        
+        .resumen-valor {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4dffea;
+            margin: 10px 0;
+        }
+        
+        .resumen-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #4dffea;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: rgba(255, 107, 107, 0.2);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+            margin: 20px 0;
+        }
+        
+        /* Scrollbar personalizado */
+        .talles-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .talles-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .talles-container::-webkit-scrollbar-thumb {
+            background: #4dffea;
+            border-radius: 4px;
+        }
+        
+        .talles-container::-webkit-scrollbar-thumb:hover {
+            background: #00d4c8;
+        }
+        
+        /* Animaciones */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .actualizando {
+            animation: pulse 1s ease-in-out;
+        }
+        
+        /* Responsive para TV */
+        @media (max-width: 2000px) {
+            .header h1 { font-size: 4rem; }
+            .cuadrante-numero { font-size: 3.5rem; }
+            .produccion-producto { font-size: 2.2rem; }
+            .total-valor { font-size: 4rem; }
+        }
+        
+        @media (max-width: 1600px) {
+            .header h1 { font-size: 3rem; }
+            .cuadrante-numero { font-size: 3rem; }
+            .produccion-producto { font-size: 1.8rem; }
+            .total-valor { font-size: 3.5rem; }
+        }
+        
+        @media (max-width: 1200px) {
+            .cuadrantes-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .cuadrantes-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>MONITOR DE PRODUCCIÓN EN TIEMPO REAL</h1>
+        <div class="hora-actual" id="hora-actual"></div>
+        <div class="ultima-actualizacion" id="ultima-actualizacion">Última actualización: --:--:--</div>
+    </div>
+    
+    <div class="cuadrantes-container" id="cuadrantes-container">
+        <div class="loading">
+            <div class="spinner"></div>
+            <div>Cargando datos de producción del Sheets...</div>
+        </div>
+    </div>
+    
+    <div class="resumen-container" id="resumen-container">
+        <div class="resumen-grid">
+            <div class="resumen-item">
+                <div class="resumen-valor" id="total-general">0</div>
+                <div class="resumen-label">TOTAL GENERAL</div>
+            </div>
+            <div class="resumen-item">
+                <div class="resumen-valor" id="producciones-activas">0</div>
+                <div class="resumen-label">PRODUCCIONES ACTIVAS</div>
+            </div>
+            <div class="resumen-item">
+                <div class="resumen-valor" id="total-talles">0</div>
+                <div class="resumen-label">TALLES REGISTRADOS</div>
+            </div>
+            <div class="resumen-item">
+                <div class="resumen-valor" id="tiempo-actualizacion">15s</div>
+                <div class="resumen-label">ACTUALIZACIÓN CADA</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Sistema de Monitoreo de Producción | Actualización automática cada 15 segundos
+    </div>
+
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbz3pi4dX51__liEAyI9IgroL09yrbYsFqgxq6t5w-Wa5zVVTWBdgY8udTykAl7Vhcbs/exec";
+        let ultimaActualizacion = null;
+        let intervaloActualizacion = null;
+        const TIEMPO_ACTUALIZACION = 15000; // 15 segundos
+        
+        // Función para formatear fecha/hora
+        function formatearFechaHora(fecha) {
+            return fecha.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+        }
+        
+        // Función para actualizar la hora actual
+        function actualizarHora() {
+            const ahora = new Date();
+            document.getElementById('hora-actual').textContent = 
+                `HORA ACTUAL: ${formatearFechaHora(ahora)}`;
+        }
+        
+        // Función para obtener y procesar datos del Google Sheets
+        async function obtenerDatosDelSheets() {
+            try {
+                // Primero, obtener TODAS las filas del sheet
+                const response = await fetch(`${scriptURL}?action=getAllData`);
+                if (!response.ok) {
+                    throw new Error('No se pudo conectar al servidor');
+                }
+                
+                const data = await response.json();
+                
+                // Verificar si hay datos
+                if (!data || !data.success || !data.rows) {
+                    throw new Error('No se recibieron datos válidos');
+                }
+                
+                return procesarDatosSheets(data.rows);
+                
+            } catch (error) {
+                console.error('Error al obtener datos:', error);
+                throw error;
+            }
+        }
+        
+        // Función para procesar los datos crudos del Sheets
+        function procesarDatosSheets(rows) {
+            // Estructura para almacenar datos procesados por cuadrante
+            const producciones = {
+                cuadrantes: {
+                    1: { producto: null, ot: null, talles: [], total: 0 },
+                    2: { producto: null, ot: null, talles: [], total: 0 },
+                    3: { producto: null, ot: null, talles: [], total: 0 },
+                    4: { producto: null, ot: null, talles: [], total: 0 }
+                }
+            };
+            
+            // Diccionario para agrupar datos por cuadrante, producto y OT
+            const grupos = {};
+            
+            // Procesar cada fila del Sheets
+            rows.forEach(row => {
+                // Asumimos que las columnas son: [fecha, producto, ot, talle, cantidad, estado, cuadrante]
+                const producto = (row[1] || '').toString().trim();
+                const ot = (row[2] || '').toString().trim();
+                const talle = (row[3] || '').toString().trim();
+                const cantidad = parseInt(row[4] || 0);
+                const estado = (row[5] || '').toString().trim();
+                const cuadrante = (row[6] || '1').toString().trim();
+                
+                // Solo procesar filas NO finalizadas y con datos válidos
+                if (estado !== 'produccion finalizada' && producto && ot && talle && cantidad > 0) {
+                    const grupoKey = `${cuadrante}-${producto}-${ot}`;
+                    
+                    if (!grupos[grupoKey]) {
+                        grupos[grupoKey] = {
+                            cuadrante: parseInt(cuadrante),
+                            producto: producto,
+                            ot: ot,
+                            talles: {},
+                            total: 0
+                        };
+                    }
+                    
+                    // Agregar talle al grupo
+                    if (!grupos[grupoKey].talles[talle]) {
+                        grupos[grupoKey].talles[talle] = 0;
+                    }
+                    grupos[grupoKey].talles[talle] += cantidad;
+                    grupos[grupoKey].total += cantidad;
+                }
+            });
+            
+            // Transferir datos a la estructura de producciones
+            Object.values(grupos).forEach(grupo => {
+                const cuadrante = grupo.cuadrante;
+                if (cuadrante >= 1 && cuadrante <= 4) {
+                    producciones.cuadrantes[cuadrante] = {
+                        producto: grupo.producto,
+                        ot: grupo.ot,
+                        talles: Object.keys(grupo.talles).map(talle => ({
+                            nombre: talle,
+                            cantidad: grupo.talles[talle]
+                        })),
+                        total: grupo.total
+                    };
+                }
+            });
+            
+            return producciones;
+        }
+        
+        // Función para cargar y mostrar datos de producción
+        async function cargarDatosProduccion() {
+            try {
+                // Mostrar indicador de actualización
+                const container = document.getElementById('cuadrantes-container');
+                container.classList.add('actualizando');
+                
+                // Obtener datos reales del Sheets
+                const data = await obtenerDatosDelSheets();
+                
+                // Actualizar última actualización
+                ultimaActualizacion = new Date();
+                document.getElementById('ultima-actualizacion').textContent = 
+                    `Última actualización: ${formatearFechaHora(ultimaActualizacion)}`;
+                
+                // Mostrar los datos
+                mostrarDatosProduccion(data);
+                actualizarResumen(data);
+                
+                // Quitar indicador de actualización
+                setTimeout(() => {
+                    container.classList.remove('actualizando');
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Error al cargar datos:', error);
+                mostrarError(`Error al obtener datos del Sheets: ${error.message}. Reintentando...`);
+                
+                // Reintentar después de 5 segundos en caso de error
+                setTimeout(cargarDatosProduccion, 5000);
+            }
+        }
+        
+        // Función para mostrar datos de producción
+        function mostrarDatosProduccion(data) {
+            const container = document.getElementById('cuadrantes-container');
+            
+            // Limpiar container
+            container.innerHTML = '';
+            
+            // Procesar cada cuadrante
+            for (let cuadrante = 1; cuadrante <= 4; cuadrante++) {
+                const datosCuadrante = data.cuadrantes[cuadrante] || {};
+                const tieneProduccion = datosCuadrante.producto && datosCuadrante.ot;
+                
+                // Crear elemento del cuadrante
+                const cuadranteDiv = document.createElement('div');
+                cuadranteDiv.className = 'cuadrante';
+                
+                let contenido = `
+                    <div class="cuadrante-header">
+                        <div class="cuadrante-numero">CUADRANTE ${cuadrante}</div>
+                        <div class="cuadrante-estado ${tieneProduccion ? 'estado-activo' : 'estado-inactivo'}">
+                            ${tieneProduccion ? 'EN PRODUCCIÓN' : 'SIN PRODUCCIÓN'}
+                        </div>
+                    </div>
+                    
+                    <div class="produccion-info">
+                `;
+                
+                if (tieneProduccion) {
+                    contenido += `
+                        <div class="produccion-producto">${datosCuadrante.producto}</div>
+                        <div class="produccion-ot">OT: ${datosCuadrante.ot}</div>
+                    `;
+                } else {
+                    contenido += `
+                        <div class="sin-produccion">NINGUNA PRODUCCIÓN EN CURSO</div>
+                    `;
+                }
+                
+                contenido += `</div>`;
+                
+                // Agregar talles si hay producción
+                if (tieneProduccion && datosCuadrante.talles && datosCuadrante.talles.length > 0) {
+                    contenido += `
+                        <div class="talles-container">
+                    `;
+                    
+                    // Ordenar talles alfabéticamente
+                    const tallesOrdenados = [...datosCuadrante.talles].sort((a, b) => 
+                        a.nombre.localeCompare(b.nombre)
+                    );
+                    
+                    tallesOrdenados.forEach(talle => {
+                        if (talle.cantidad > 0) {
+                            contenido += `
+                                <div class="talle-item">
+                                    <div class="talle-nombre">${talle.nombre}</div>
+                                    <div class="talle-cantidad">${talle.cantidad}</div>
+                                </div>
+                            `;
+                        }
+                    });
+                    
+                    contenido += `</div>`;
+                } else if (tieneProduccion) {
+                    contenido += `
+                        <div class="sin-produccion" style="margin-top: 20px;">
+                            Sin talles registrados aún
+                        </div>
+                    `;
+                }
+                
+                // Agregar total
+                contenido += `
+                    <div class="total-container">
+                        <div class="total-label">TOTAL PARCIAL</div>
+                        <div class="total-valor">${datosCuadrante.total || 0}</div>
+                    </div>
+                `;
+                
+                cuadranteDiv.innerHTML = contenido;
+                container.appendChild(cuadranteDiv);
+            }
+        }
+        
+        // Función para actualizar el resumen general
+        function actualizarResumen(data) {
+            let totalGeneral = 0;
+            let produccionesActivas = 0;
+            let totalTalles = 0;
+            
+            for (let cuadrante = 1; cuadrante <= 4; cuadrante++) {
+                const datosCuadrante = data.cuadrantes[cuadrante] || {};
+                
+                if (datosCuadrante.producto && datosCuadrante.ot) {
+                    produccionesActivas++;
+                    totalGeneral += datosCuadrante.total || 0;
+                    
+                    if (datosCuadrante.talles) {
+                        totalTalles += datosCuadrante.talles.filter(t => t.cantidad > 0).length;
+                    }
+                }
+            }
+            
+            document.getElementById('total-general').textContent = totalGeneral;
+            document.getElementById('producciones-activas').textContent = produccionesActivas;
+            document.getElementById('total-talles').textContent = totalTalles;
+            document.getElementById('tiempo-actualizacion').textContent = `${TIEMPO_ACTUALIZACION/1000}s`;
+        }
+        
+        // Función para mostrar errores
+        function mostrarError(mensaje) {
+            const container = document.getElementById('cuadrantes-container');
+            container.innerHTML = `
+                <div class="error-message" style="grid-column: 1 / -1;">
+                    <h3>⚠️ Error de Conexión</h3>
+                    <p>${mensaje}</p>
+                    <p>Reintentando en 5 segundos...</p>
+                </div>
+            `;
+        }
+        
+        // Inicializar
+        function inicializar() {
+            // Actualizar hora cada segundo
+            actualizarHora();
+            setInterval(actualizarHora, 1000);
+            
+            // Cargar datos iniciales
+            cargarDatosProduccion();
+            
+            // Configurar actualización automática
+            intervaloActualizacion = setInterval(cargarDatosProduccion, TIEMPO_ACTUALIZACION);
+            
+            // También actualizar cuando la ventana recupera el foco
+            window.addEventListener('focus', () => {
+                cargarDatosProduccion();
+                if (!intervaloActualizacion) {
+                    intervaloActualizacion = setInterval(cargarDatosProduccion, TIEMPO_ACTUALIZACION);
+                }
+            });
+            
+            // Pausar actualización cuando la ventana pierde el foco (para optimizar recursos)
+            window.addEventListener('blur', () => {
+                if (intervaloActualizacion) {
+                    clearInterval(intervaloActualizacion);
+                    intervaloActualizacion = null;
+                }
+            });
+            
+            // Configurar para recargar automáticamente si hay problemas de conexión
+            window.addEventListener('online', () => {
+                cargarDatosProduccion();
+                if (!intervaloActualizacion) {
+                    intervaloActualizacion = setInterval(cargarDatosProduccion, TIEMPO_ACTUALIZACION);
+                }
+            });
+        }
+        
+        // Iniciar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', inicializar);
+    </script>
+</body>
+</html>
