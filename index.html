@@ -16,168 +16,133 @@
             background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
             color: white;
             min-height: 100vh;
-            padding: 15px;
+            padding: 10px;
             overflow-x: hidden;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 10px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 8px;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             color: #fff;
         }
         
         .header .hora-actual {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             color: #4dffea;
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
         
         .header .ultima-actualizacion {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #ffcc00;
-            margin-top: 8px;
+            margin-top: 5px;
         }
         
         .cuadrantes-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 20px;
-            align-items: start; /* Alinea los cuadrantes en la parte superior */
+            gap: 15px;
+            align-items: start;
         }
         
         .cuadrante {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             flex-direction: column;
-            min-height: 280px; /* Altura mínima reducida */
         }
         
         .cuadrante:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.3);
         }
         
         .cuadrante-header {
             text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            flex-shrink: 0; /* No se reduce */
+            margin-bottom: 10px;
         }
         
         .cuadrante-numero {
-            font-size: 1.4rem; /* Reducido 50% */
+            font-size: 1.2rem;
             font-weight: bold;
             color: #4dffea;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-            margin-bottom: 8px;
-        }
-        
-        .cuadrante-estado {
-            font-size: 1rem;
-            padding: 6px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            font-weight: bold;
-        }
-        
-        .estado-activo {
-            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
-            color: white;
-        }
-        
-        .estado-inactivo {
-            background: linear-gradient(135deg, #8e9eab 0%, #eef2f3 100%);
-            color: #333;
+            margin-bottom: 5px;
         }
         
         .produccion-info {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-align: center;
-            flex-shrink: 0; /* No se reduce */
         }
         
         .produccion-producto {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #ffcc00;
-            min-height: 45px;
+            min-height: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.3;
+            line-height: 1.2;
         }
         
         .produccion-ot {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #4dffea;
             background: rgba(0, 0, 0, 0.3);
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
             display: inline-block;
         }
         
         .sin-produccion {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: #ff6b6b;
             font-style: italic;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin: 15px 0;
-            line-height: 1.3;
-            flex-grow: 1; /* Ocupa espacio disponible */
+            border-radius: 6px;
+            margin: 10px 0;
+            line-height: 1.2;
+            flex-grow: 1;
         }
         
         .talles-container {
-            flex-grow: 1; /* Ocupa el espacio restante */
-            margin-bottom: 15px;
+            flex-grow: 1;
+            margin-bottom: 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px; /* Espacio entre talles */
-            overflow: hidden; /* Oculta overflow en lugar de scroll */
-        }
-        
-        /* Eliminar barra de desplazamiento interna */
-        .talles-container::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .talles-container {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            gap: 5px;
+            overflow: hidden;
         }
         
         .talle-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 12px;
+            padding: 6px 10px;
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
+            border-radius: 6px;
             border-left: 3px solid #4dffea;
             transition: all 0.2s ease;
-            flex-shrink: 0; /* No se reduce el tamaño de los talles */
         }
         
         .talle-item:hover {
@@ -187,92 +152,58 @@
         .talle-info {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .talle-label {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
         }
         
         .talle-nombre {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
             color: white;
         }
         
         .talle-cantidad {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #ffcc00;
             background: rgba(0, 0, 0, 0.3);
-            padding: 4px 10px;
-            border-radius: 15px;
-            min-width: 60px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            min-width: 50px;
             text-align: center;
         }
         
         .total-container {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 12px 15px;
-            border-radius: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0; /* No se reduce */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         
         .total-label {
-            font-size: 1.1rem;
-            margin-bottom: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
             color: rgba(255, 255, 255, 0.9);
         }
         
         .total-valor {
-            font-size: 2.2rem; /* Reducido a la mitad */
+            font-size: 1.8rem;
             font-weight: bold;
             color: white;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
         
-        .resumen-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .resumen-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-        
-        .resumen-item {
-            text-align: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-        }
-        
-        .resumen-valor {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #4dffea;
-            margin: 8px 0;
-        }
-        
-        .resumen-label {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
         .footer {
             text-align: center;
-            margin-top: 25px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 10px;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         
         .loading {
@@ -280,17 +211,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 150px;
+            min-height: 120px;
         }
         
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: #4dffea;
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         @keyframes spin {
@@ -301,11 +232,11 @@
             background: rgba(255, 107, 107, 0.2);
             border: 1px solid #ff6b6b;
             color: #ff6b6b;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
-            font-size: 1.1rem;
-            margin: 15px 0;
+            font-size: 1rem;
+            margin: 12px 0;
         }
         
         /* Animaciones */
@@ -319,25 +250,25 @@
             animation: pulse 1s ease-in-out;
         }
         
-        /* Responsive para TV - ajustes adicionales */
+        /* Responsive para TV */
         @media (max-width: 2000px) {
-            .header h1 { font-size: 3rem; }
-            .cuadrante-numero { font-size: 1.6rem; }
-            .produccion-producto { font-size: 1.6rem; }
-            .total-valor { font-size: 2.5rem; }
+            .header h1 { font-size: 2.5rem; }
+            .cuadrante-numero { font-size: 1.3rem; }
+            .produccion-producto { font-size: 1.3rem; }
+            .total-valor { font-size: 2rem; }
         }
         
         @media (max-width: 1600px) {
-            .header h1 { font-size: 2.5rem; }
-            .cuadrante-numero { font-size: 1.4rem; }
-            .produccion-producto { font-size: 1.3rem; }
-            .total-valor { font-size: 2.2rem; }
+            .header h1 { font-size: 2rem; }
+            .cuadrante-numero { font-size: 1.1rem; }
+            .produccion-producto { font-size: 1.1rem; }
+            .total-valor { font-size: 1.8rem; }
         }
         
         @media (max-width: 1200px) {
             .cuadrantes-container {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                gap: 12px;
             }
         }
         
@@ -359,27 +290,6 @@
         <div class="loading">
             <div class="spinner"></div>
             <div>Cargando datos de producción del Sheets...</div>
-        </div>
-    </div>
-    
-    <div class="resumen-container" id="resumen-container">
-        <div class="resumen-grid">
-            <div class="resumen-item">
-                <div class="resumen-valor" id="total-general">0</div>
-                <div class="resumen-label">TOTAL GENERAL</div>
-            </div>
-            <div class="resumen-item">
-                <div class="resumen-valor" id="producciones-activas">0</div>
-                <div class="resumen-label">PRODUCCIONES ACTIVAS</div>
-            </div>
-            <div class="resumen-item">
-                <div class="resumen-valor" id="total-talles">0</div>
-                <div class="resumen-label">TALLES REGISTRADOS</div>
-            </div>
-            <div class="resumen-item">
-                <div class="resumen-valor" id="tiempo-actualizacion">15s</div>
-                <div class="resumen-label">ACTUALIZACIÓN CADA</div>
-            </div>
         </div>
     </div>
     
@@ -518,7 +428,6 @@
                 
                 // Mostrar los datos
                 mostrarDatosProduccion(data);
-                actualizarResumen(data);
                 
                 // Quitar indicador de actualización
                 setTimeout(() => {
@@ -541,15 +450,6 @@
             // Limpiar container
             container.innerHTML = '';
             
-            // Calcular altura máxima basada en la mayor cantidad de talles
-            let maxTalles = 0;
-            for (let cuadrante = 1; cuadrante <= 4; cuadrante++) {
-                const datosCuadrante = data.cuadrantes[cuadrante] || {};
-                if (datosCuadrante.talles && datosCuadrante.talles.length > maxTalles) {
-                    maxTalles = datosCuadrante.talles.length;
-                }
-            }
-            
             // Procesar cada cuadrante
             for (let cuadrante = 1; cuadrante <= 4; cuadrante++) {
                 const datosCuadrante = data.cuadrantes[cuadrante] || {};
@@ -561,8 +461,8 @@
                 
                 // Calcular altura dinámica basada en cantidad de talles
                 const cantidadTalles = datosCuadrante.talles ? datosCuadrante.talles.length : 0;
-                const alturaBase = 280; // Altura base en px
-                const alturaPorTalle = 50; // Altura por cada talle en px
+                const alturaBase = 200; // Altura base reducida
+                const alturaPorTalle = 40; // Altura por cada talle reducida
                 const alturaCalculada = alturaBase + (cantidadTalles * alturaPorTalle);
                 
                 cuadranteDiv.style.minHeight = `${Math.max(alturaBase, alturaCalculada)}px`;
@@ -570,9 +470,6 @@
                 let contenido = `
                     <div class="cuadrante-header">
                         <div class="cuadrante-numero">PRODUCTO ${cuadrante}</div>
-                        <div class="cuadrante-estado ${tieneProduccion ? 'estado-activo' : 'estado-inactivo'}">
-                            ${tieneProduccion ? 'EN PRODUCCIÓN' : 'SIN PRODUCCIÓN'}
-                        </div>
                     </div>
                     
                     <div class="produccion-info">
@@ -585,7 +482,7 @@
                     `;
                 } else {
                     contenido += `
-                        <div class="sin-produccion">NINGUNA PRODUCCIÓN EN CURSO</div>
+                        <div class="sin-produccion">SIN PRODUCCIÓN</div>
                     `;
                 }
                 
@@ -619,7 +516,7 @@
                     contenido += `</div>`;
                 } else if (tieneProduccion) {
                     contenido += `
-                        <div class="sin-produccion" style="margin-top: 15px;">
+                        <div class="sin-produccion" style="margin-top: 10px;">
                             Sin talles registrados aún
                         </div>
                     `;
@@ -636,31 +533,6 @@
                 cuadranteDiv.innerHTML = contenido;
                 container.appendChild(cuadranteDiv);
             }
-        }
-        
-        // Función para actualizar el resumen general
-        function actualizarResumen(data) {
-            let totalGeneral = 0;
-            let produccionesActivas = 0;
-            let totalTalles = 0;
-            
-            for (let cuadrante = 1; cuadrante <= 4; cuadrante++) {
-                const datosCuadrante = data.cuadrantes[cuadrante] || {};
-                
-                if (datosCuadrante.producto && datosCuadrante.ot) {
-                    produccionesActivas++;
-                    totalGeneral += datosCuadrante.total || 0;
-                    
-                    if (datosCuadrante.talles) {
-                        totalTalles += datosCuadrante.talles.filter(t => t.cantidad > 0).length;
-                    }
-                }
-            }
-            
-            document.getElementById('total-general').textContent = totalGeneral;
-            document.getElementById('producciones-activas').textContent = produccionesActivas;
-            document.getElementById('total-talles').textContent = totalTalles;
-            document.getElementById('tiempo-actualizacion').textContent = `${TIEMPO_ACTUALIZACION/1000}s`;
         }
         
         // Función para mostrar errores
